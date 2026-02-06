@@ -1,11 +1,9 @@
 const express = require("express")
 const router = express.Router()
+const notes = require("./note")
 
-router.get("/home", (req, res)=>{
-    res.send({
-        msg: "Hello world"
-    })
-})
+
+router.use("/note", notes)
 
 
 // ============== Not found 
