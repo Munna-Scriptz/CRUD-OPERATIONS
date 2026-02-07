@@ -45,7 +45,7 @@ const deletNotes = async (req, res) => {
 
         const note = await noteSchema.findOneAndDelete({ _id: noteId })
         if (!note) return res.status(400).send("Note couldn't Found")
-            
+
         // ------------- Success 
         res.status(201).send("Note Deleted successfully")
     } catch (error) {
@@ -53,4 +53,18 @@ const deletNotes = async (req, res) => {
     }
 }
 
-module.exports = { createNotes, updateNotes, deletNotes }
+
+// ======================= Get All notes 
+const getAllNotes = async (req, res) => {
+    try {
+        const note = await noteSchema.find({})
+        if (!note) return res.status(400).send("Note couldn't Found")
+
+        // ------------- Success 
+        res.status(200).send(note)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = { createNotes, updateNotes, deletNotes, getAllNotes }
