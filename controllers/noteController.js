@@ -1,5 +1,6 @@
 const noteSchema = require("../models/noteSchema")
 
+// ======================= Create notes 
 const createNotes = (req, res) => {
     try {
         const { title, content } = req.body
@@ -10,9 +11,9 @@ const createNotes = (req, res) => {
             title,
             content
         })
-        
+
         note.save()
-        
+
         // ------------- Success 
         res.status(201).send("Note created successfully")
     } catch (error) {
@@ -20,5 +21,22 @@ const createNotes = (req, res) => {
     }
 }
 
+// ======================= Update notes 
+const updateNotes = async (req, res) => {
+    try {
+        const { noteId } = req.params
+        const { title, content, isPinned } = req.body
 
-module.exports = { createNotes }
+        // ------------ Find and update 
+        const note = await noteSchema.findOneAndUpdate({ _id: noteId }, { title, content, isPinned }, { new: true })
+        if (!note) return res.status(404).send("Note couldn't found")
+
+        // ------------- Success 
+        res.status(200).send("Note updated successfully", note)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+module.exports = { createNotes, updateNotes }
