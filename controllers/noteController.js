@@ -28,6 +28,7 @@ const updateNotes = async (req, res) => {
         const { title, content, isPinned } = req.body
 
         // ------------ Find and update 
+        if (noteId.length > 24 || noteId.length < 24) return res.status(400).send("Invalid request") 
         const note = await noteSchema.findOneAndUpdate({ _id: noteId }, { title, content, isPinned }, { new: true })
         if (!note) return res.status(404).send("Note couldn't found")
 
@@ -43,11 +44,12 @@ const deletNotes = async (req, res) => {
     try {
         const { noteId } = req.params
 
+        if (noteId.length > 24 || noteId.length < 24) return res.status(400).send("Invalid request")
         const note = await noteSchema.findOneAndDelete({ _id: noteId })
         if (!note) return res.status(400).send("Note couldn't Found")
 
         // ------------- Success 
-        res.status(201).send("Note Deleted successfully")
+        res.status(204).send("Note Deleted successfully")
     } catch (error) {
         console.log(error)
     }
@@ -57,6 +59,8 @@ const deletNotes = async (req, res) => {
 // ======================= Get All notes 
 const getAllNotes = async (req, res) => {
     try {
+        if (noteId.length > 24 || noteId.length < 24) return res.status(400).send("Invalid request")
+
         const note = await noteSchema.find({})
         if (!note) return res.status(400).send("Note couldn't Found")
 
@@ -67,4 +71,20 @@ const getAllNotes = async (req, res) => {
     }
 }
 
-module.exports = { createNotes, updateNotes, deletNotes, getAllNotes }
+
+// ======================= Get single note 
+const getSingleNote = async (req, res) => {
+    try {
+        const { noteId } = req.params
+        if (noteId.length > 24 || noteId.length < 24) return res.status(400).send("Invalid request")
+        const note = await noteSchema.findOne({ _id: noteId })
+        if (!note) return res.status(400).send("Note couldn't Found")
+
+        // ------------- Success 
+        res.status(200).send(note)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = { createNotes, updateNotes, deletNotes, getAllNotes, getSingleNote }
