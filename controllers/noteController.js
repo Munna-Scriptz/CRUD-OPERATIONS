@@ -38,5 +38,19 @@ const updateNotes = async (req, res) => {
     }
 }
 
+// ======================= Delete notes 
+const deletNotes = async (req, res) => {
+    try {
+        const { noteId } = req.params
 
-module.exports = { createNotes, updateNotes }
+        const note = await noteSchema.findOneAndDelete({ _id: noteId })
+        if (!note) return res.status(400).send("Note couldn't Found")
+            
+        // ------------- Success 
+        res.status(201).send("Note Deleted successfully")
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = { createNotes, updateNotes, deletNotes }
