@@ -1,7 +1,7 @@
 const express = require("express")
+const { create } = require("../controllers/urlController")
 const router = express.Router()
-const url = require("./url")
 
-router.use("/url", url)
+router.post("/create", create)
 
 module.exports = router
