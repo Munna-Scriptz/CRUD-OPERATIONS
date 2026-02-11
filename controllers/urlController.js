@@ -27,7 +27,7 @@ const create = (req, res) => {
     }
 }
 
-// ====================== Create 
+// ====================== Redirect 
 const redirect = async (req, res) => {
     try {
         const { urlId } = req.params
@@ -45,4 +45,18 @@ const redirect = async (req, res) => {
     }
 }
 
-module.exports = { create, redirect }
+// ====================== Get all links
+const allUrl = async (req, res) => {
+    try {
+        const existingUrl = await urlSchema.find({})
+        if (!existingUrl) return res.status(400).send("Couldn't found any urls")
+        
+        // ---------- Success 
+        console.log(existingUrl)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+module.exports = { create, redirect, allUrl }

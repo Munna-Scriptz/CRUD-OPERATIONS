@@ -8,6 +8,7 @@ app.use(express.json())
 app.use(router)
 dbConfig()
 
+
 app.listen(8000, ()=>{
     console.log("Server is running")
 })
