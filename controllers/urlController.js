@@ -45,18 +45,38 @@ const redirect = async (req, res) => {
     }
 }
 
-// ====================== Get all links
+// ====================== Get all Urls
 const allUrl = async (req, res) => {
     try {
         const existingUrl = await urlSchema.find({})
         if (!existingUrl) return res.status(400).send("Couldn't found any urls")
-        
+
         // ---------- Success 
-        console.log(existingUrl)
+        res.status(200).send(existingUrl)
     } catch (error) {
         console.log(error)
     }
 }
 
 
-module.exports = { create, redirect, allUrl }
+// ====================== Delete Urls
+const deleteUrl = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        if (!id) return res.status(400).send("Url Id is missing")
+
+        // ---- Find from DB 
+        const existingUrl = await urlSchema.findByIdAndDelete(id)
+        if (!existingUrl) return res.status(400).send("Couldn't found any urls")
+
+        // ---------- Success 
+        res.status(200).send("Url deleted successfull")
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
+module.exports = { create, redirect, allUrl, deleteUrl }
