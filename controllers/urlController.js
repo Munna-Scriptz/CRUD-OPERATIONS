@@ -38,6 +38,14 @@ const redirect = async (req, res) => {
         })
         if (!existingUrl) return res.status(400).send("Url doesnt exist")
 
+        // -------- Click Count 
+        existingUrl.clicks.push({
+            totalClicks: existingUrl.clicks.length,
+            clickTime: new Date()
+        })
+
+        existingUrl.save()
+
         // --------- Redirect 
         res.redirect(existingUrl.originalUrl)
     } catch (error) {
@@ -45,18 +53,6 @@ const redirect = async (req, res) => {
     }
 }
 
-// ====================== Get all Urls
-const allUrl = async (req, res) => {
-    try {
-        const existingUrl = await urlSchema.find({})
-        if (!existingUrl) return res.status(400).send("Couldn't found any urls")
-
-        // ---------- Success 
-        res.status(200).send(existingUrl)
-    } catch (error) {
-        console.log(error)
-    }
-}
 
 
 // ====================== Delete Urls
@@ -78,5 +74,18 @@ const deleteUrl = async (req, res) => {
 }
 
 
+// ====================== Get all Urls
+const allUrl = async (req, res) => {
+    try {
+        const existingUrl = await urlSchema.find({})
+        if (!existingUrl) return res.status(400).send("Couldn't found any urls")
 
-module.exports = { create, redirect, allUrl, deleteUrl }
+        // ---------- Success 
+        res.status(200).send(existingUrl)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+module.exports = { create, redirect, deleteUrl, allUrl }

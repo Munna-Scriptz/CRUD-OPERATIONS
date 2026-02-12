@@ -16,7 +16,7 @@ const urlSchema = mongoose.Schema({
             },
             clickTime: {
                 type: Date,
-                default: new Date()
+                default: Date.now
             }
         }
     ]
