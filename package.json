@@ -1,19 +1,19 @@
 {
   "name": "crud-practice",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node --watch server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Munna-Scriptz",
+  "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
     "mongodb": "^7.1.0",
-    "mongoose": "^9.2.0"
+    "mongoose": "^9.2.1"
   }
 }
