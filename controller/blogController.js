@@ -140,6 +140,41 @@ const getPublished = async (req, res) => {
     }
 }
 
+// ============= Publish post
+const PublishBlog = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        // --------------------- Slug validation
+        const existingBlog = await blogSchema.findByIdAndUpdate(id, {
+            isPublished: true
+        })
+        if (!existingBlog) return res.status(404).send("Couldn't found any blog post")
+
+        // --------------------- Success
+        res.status(201).send("Blog post published")
+    } catch (error) {
+        res.status(500).send("Internal server error")
+    }
+}
+
+// ============= unpublish post
+const unpublishBlog = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        // --------------------- Slug validation
+        const existingBlog = await blogSchema.findByIdAndUpdate(id, {
+            isPublished: false
+        })
+        if (!existingBlog) return res.status(404).send("Couldn't found any blog post")
+
+        // --------------------- Success
+        res.status(201).send("Blog post unpublished")
+    } catch (error) {
+        res.status(500).send("Internal server error")
+    }
+}
 
 
-module.exports = { create, update, deleteBlog, getSingle, getAll, getPublished }
+module.exports = { create, update, deleteBlog, getSingle, getAll, getPublished, PublishBlog, unpublishBlog }
