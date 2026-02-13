@@ -94,9 +94,10 @@ const deleteBlog = async (req, res) => {
 const getSingle = async (req, res) => {
     try {
         const { slug } = req.params
+        if (!slug) return res.status(404).send("Blog slug is missing")
 
-        // --------------------- Find And delete
-        const existingBlog = await blogSchema.findOne(slug)
+        // --------------------- Find One
+        const existingBlog = await blogSchema.findOne({ slug }).select("-__v")
         if (!existingBlog) return res.status(404).send("Blog post doesn't exist")
 
 
@@ -107,5 +108,20 @@ const getSingle = async (req, res) => {
     }
 }
 
+// ============= Get All blog
+const getAll = async (req, res) => {
+    try {
+        // --------------------- Find
+        const existingBlog = await blogSchema.find({})
+        if (!existingBlog) return res.status(404).send("Couldn't found any blog post")
 
-module.exports = { create, update, deleteBlog, getSingle }
+
+        // --------------------- Success
+        res.status(200).send(existingBlog)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+module.exports = { create, update, deleteBlog, getSingle, getAll }
