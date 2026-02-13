@@ -43,6 +43,13 @@ const update = async (req, res) => {
         const { id } = req.params
         const { slug, title, content, tags, isPublished } = req.body
 
+        // --------------------- Slug validation
+        const exisitngSlug = await blogSchema.findOne({
+            _id: id,
+            slug
+        })
+        if (exisitngSlug) return res.status(400).send("Blog slug is already in use")
+
         // --------------------- validation
         if (!slug) return res.status(400).send("Blog slug is required")
         if (!title) return res.status(400).send("Blog title is required")
@@ -56,7 +63,7 @@ const update = async (req, res) => {
             tags,
             isPublished
         })
-        if (!existingBlog) return res.status(400).send("Blog post doesn't exist")
+        if (!existingBlog) return res.status(404).send("Blog post doesn't exist")
 
 
         // --------------------- Success
