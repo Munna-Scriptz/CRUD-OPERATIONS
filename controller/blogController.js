@@ -73,5 +73,22 @@ const update = async (req, res) => {
     }
 }
 
+// ============= Update
+const deleteBlog = async (req, res) => {
+    try {
+        const { id } = req.params
 
-module.exports = { create, update }
+        // --------------------- Find And delete
+        const existingBlog = await blogSchema.findByIdAndDelete(id)
+        if (!existingBlog) return res.status(404).send("Blog post doesn't exist")
+
+
+        // --------------------- Success
+        res.status(200).send("blog post deleted")
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+module.exports = { create, update, deleteBlog }
