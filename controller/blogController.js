@@ -69,7 +69,7 @@ const update = async (req, res) => {
         // --------------------- Success
         res.status(201).send("blog post updated")
     } catch (error) {
-        console.log(error);
+        res.status(500).send("Internal server error")
     }
 }
 
@@ -86,7 +86,7 @@ const deleteBlog = async (req, res) => {
         // --------------------- Success
         res.status(200).send("blog post deleted")
     } catch (error) {
-        console.log(error);
+        res.status(500).send("Internal server error")
     }
 }
 
@@ -104,7 +104,7 @@ const getSingle = async (req, res) => {
         // --------------------- Success
         res.status(200).send(existingBlog)
     } catch (error) {
-        console.log(error);
+        res.status(500).send("Internal server error")
     }
 }
 
@@ -119,9 +119,27 @@ const getAll = async (req, res) => {
         // --------------------- Success
         res.status(200).send(existingBlog)
     } catch (error) {
-        console.log(error);
+        res.status(500).send("Internal server error")
+    }
+}
+
+// ============= Get Published blog
+const getPublished = async (req, res) => {
+    try {
+        // --------------------- Find only published
+        const existingBlog = await blogSchema.find({
+            isPublished: true
+        })
+        if (!existingBlog) return res.status(404).send("Couldn't found any blog post")
+
+
+        // --------------------- Success
+        res.status(200).send(existingBlog)
+    } catch (error) {
+        res.status(500).send("Internal server error")
     }
 }
 
 
-module.exports = { create, update, deleteBlog, getSingle, getAll }
+
+module.exports = { create, update, deleteBlog, getSingle, getAll, getPublished }
