@@ -29,7 +29,7 @@ const blogSchema = mongoose.Schema({
         type: Boolean,
         default: true
     }
-})
+}, { timestamps: true })
 
 
-module.exports = mongoose.model("blog", blogSchema)
+module.exports = mongoose.model("Blog", blogSchema)
